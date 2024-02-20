@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+
+<table>
+    <tr>  <!-- tr - строка в таблице -->
+        <th>Name</th>  <!-- шапка таблицы-->
+        <th>Role</th>
+    </tr>
+    <tr th:each="users : ${users}">
+
+        <td th:text="${users.username}"></td> <!--Ячейка в таблице -->
+
+        <td th:each="role: ${user.roles}" th:text="${role.name}"></td>
+
+        <td>
+            <a th:href="'/edit?userId='+${user.id}">Edit</a>
+            <a th:href="'/delete?userId='+${user.id}">Delete</a>
+        </td>
+    </tr>
+
+</table>
+<br>
+<tr>
+    <a href="/add">Create new user</a>
+</tr>
+<br><br>
+<form th:action="@{/logout}" th:method="post">
+    <button>Выйти</button>
+</form>
+</body>
+</html>

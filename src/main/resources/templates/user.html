@@ -6,17 +6,19 @@
     <title>Users</title>
 </head>
 <body>
-
-
     <tr>
-        <td th:text="${user.getUsername()}"></td> <!--Ячейка в таблице -->
-
-        <td th:text="${user.getPassword()}"></td>
+        <td th:text="'id: ' + ${user.id}">id</td> <!--Ячейка в таблице -->
+        <br>
+        <td th:text="'name: ' + ${user.username}">Username</td>
+        <br>
+        <td>
+            <span th:each="role: ${user.roles}" th:text="'role: ' + ${role.name}"></span>
+        </td>
 
     </tr>
 
 
-<br>
+<br><br>
 <form th:action="@{/logout}" th:method="post">
     <button>Выйти</button>
 </form>

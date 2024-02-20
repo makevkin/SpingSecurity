@@ -27,8 +27,8 @@ public class userDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User with name " + username + " not found");
         } else {
             User user = userOptional.get();
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                    user.getRoles());
+            return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                    user.getPassword(), user.getRoles());
         }
     }
 }

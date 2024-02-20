@@ -12,6 +12,7 @@ import java.security.Principal;
 
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
     private final RoleRepository roleRepository;
     private final UserService userService;
@@ -31,7 +32,7 @@ public class AdminController {
         model.addAttribute("user", userRepository.findByUserName(principal.getName()).get());
         model.addAttribute("allRoles", roleRepository.findAll());
         model.addAttribute("newUser", new User());
-        return "indexSpringMvc";
+        return "admin";
     }
 
 
