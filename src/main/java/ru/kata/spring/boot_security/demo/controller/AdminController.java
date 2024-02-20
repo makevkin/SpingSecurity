@@ -1,29 +1,17 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-
-import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import ru.kata.spring.boot_security.demo.model.Role;
+import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
-import java.util.List;
+
 
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
     private final RoleRepository roleRepository;
     private final UserService userService;
@@ -35,6 +23,17 @@ public class AdminController {
         this.userRepository = userRepository;
     }
 
-   
+    @GetMapping("")
+    public String indexView(Model model, Principal principal) {
+        String username = principal.getName();
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("username", principal.getName());
+        model.addAttribute("user", userRepository.findByUserName(principal.getName()).get());
+        model.addAttribute("allRoles", roleRepository.findAll());
+        model.addAttribute("newUser", new User());
+        return "indexSpringMvc";
+    }
+
+
 
 }

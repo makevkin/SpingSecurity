@@ -1,50 +1,30 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Users</title>
 </head>
 <body>
-<nav class="navbar navbar-light" style="background-color: #000000;">
-    <div class="container-fluid">
-        <h1 th:text="${user.username}" style="color: white;"></h1>
-        <form th:action="@{/logout}" method="post">
-            <button class="btn btn-outline-light ms-auto" type="submit">Logout</button>
-        </form>
-    </div>
-</nav>
-<div class="d-flex" style="height: 100vh; width: 100vw;">
-    <ul style="width: 250px" class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link" onclick="window.location.href = '/user'">User</a>
-        </li>
-    </ul>
-    <div style="padding: 20px; background: #e8e5e5; flex-grow: 1;">
-        <h1>User information-page</h1>
-        <div class="card">
-            <div class="card-body">
-                <h2 class="card-text">About user</h2>
-            </div>
-            <div class="card-footer">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Role</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row" th:utext="${user.id}">ID</th>
-                        <th scope="row" th:utext="${user.username}">Username</th>
-                        <th scope="row" th:utext="${user.roles}">Role</th>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+
+<table>
+    <tr>  <!-- tr - строка в таблице -->
+        <th>Name</th>  <!-- шапка таблицы-->
+
+        <th>password</th>
+
+    </tr>
+    <tr>
+        <td th:text="${user.name}"></td> <!--Ячейка в таблице -->
+
+        <td th:text="${user.password}"></td>
+
+    </tr>
+
+</table>
+<br>
+<form th:action="@{/logout}" th:method="post">
+    <button>Выйти</button>
+</form>
 </body>
 </html>

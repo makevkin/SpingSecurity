@@ -6,27 +6,30 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ru.kata.spring.boot_security.demo.service.UsersDetailService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+//  здесь настраивается аутентификация и авторизация
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity  //конфигурационный класс для springSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
-    private final UsersDetailService usersDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UsersDetailService usersDetailsService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsService userDetailsService) {
         this.successUserHandler = successUserHandler;
-        this.usersDetailsService = usersDetailsService;
+        this.userDetailsService = userDetailsService;
     }
 
-    @Override
+    @Override  //здесь прописываем кому каие доступы
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/user").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .authorizeRequests()// авторизация для определенных url, даем разрешение конкретным ролям
+                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/", "/index").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -36,21 +39,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
-
-
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(usersDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
-        return daoAuthenticationProvider;
-    }
-
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
+    @Bean  // для футентификации по логину и паролю, которые хранятся в БД
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthenticationProvider;
+    }
 
 }
