@@ -21,6 +21,6 @@ public class UserController {
         String userName = principal.getName();
         User user = userRepository.findByUserName(userName).get();
         model.addAttribute("user", user);
-        return "user1";
+        return "user";
     }
 }
