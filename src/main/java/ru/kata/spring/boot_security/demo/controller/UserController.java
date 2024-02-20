@@ -19,8 +19,8 @@ public class UserController {
     @GetMapping("/user")
     public String userInfo(Model model, Principal principal) {
         String userName = principal.getName();
-        Optional<User> user = userRepository.findByUserName(userName);
+        User user = userRepository.findByUserName(userName).get();
         model.addAttribute("user", user);
-        return "user";
+        return "user1";
     }
 }
