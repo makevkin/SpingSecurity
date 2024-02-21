@@ -30,12 +30,12 @@ public class AdminController {
 
     @GetMapping("")
     public String indexView(Model model, Principal principal) {
-        String username = principal.getName();
+
         model.addAttribute("users", userService.findAll());
-        model.addAttribute("username", principal.getName());
+
         model.addAttribute("user", userRepository.findByUserName(principal.getName()).get());
         model.addAttribute("allRoles", roleRepository.findAll());
-        model.addAttribute("newUser", new User());
+
         return "admin";
     }
     @DeleteMapping("/delete/{id}")
@@ -48,7 +48,7 @@ public class AdminController {
         User user = new User();
         model.addAttribute("user", user);
         List<Role> roles = (List<Role>) roleRepository.findAll();
-        model.addAttribute("username", principal.getName());
+
         model.addAttribute("allRoles", roles);
         return "addUser";
     }
