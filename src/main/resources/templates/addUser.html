@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+
+<h1> Add user</h1>
+<br>
+
+<form th:method="post" th:action="@{/admin/addUser}" th:object="${user}">
+    <input hidden="hidden" type="number" th:field="*{id}" id="id"/> <!-- делаем невидимым поле id-->
+    <label for="username">Enter name: </label>
+    <input type="text" class="form-control" id="username" name="username"
+           th:value="${user.username}" >
+    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></div>
+    <br/>
+    <label for="password">Enter password: </label>
+    <input type="text" class="form-control" id="password" name="password"
+           th:value="${user.password}">
+    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
+    <br/>
+
+        <p>
+            <label>Roles:
+                <input type="checkbox" name="roles"
+                       th:each="role : ${allRoles}"
+                       th:text="${role.name}"
+                       th:value="${role.id}"
+                       th:field="*{roles}"
+                />
+            </label>
+        </p>
+
+    <br/>
+
+    <input type="submit" value="Ok"/>
+</form>
+<br>
+<form th:action="@{/logout}" th:method="post">
+    <button>Выйти</button>
+</form>
+</body>
+</html>
