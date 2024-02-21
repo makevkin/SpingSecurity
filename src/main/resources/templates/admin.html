@@ -9,18 +9,20 @@
 
 <table>
     <tr>  <!-- tr - строка в таблице -->
+        <th>Id</th>
         <th>Name</th>  <!-- шапка таблицы-->
         <th>Role</th>
     </tr>
-    <tr th:each="users : ${users}">
-
-        <td th:text="${users.username}"></td> <!--Ячейка в таблице -->
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}">
+        <td th:text="${user.username}"></td> <!--Ячейка в таблице -->
 
         <td th:each="role: ${user.roles}" th:text="${role.name}"></td>
 
         <td>
+
             <a th:href="'/edit?userId='+${user.id}">Edit</a>
-            <a th:href="'/delete?userId='+${user.id}">Delete</a>
+            <a th:href="'/admin/delete?id='+${user.id}">Delete</a>
         </td>
     </tr>
 

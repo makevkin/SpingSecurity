@@ -34,6 +34,11 @@ public class AdminController {
         model.addAttribute("newUser", new User());
         return "admin";
     }
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id) {
+        userService.delete(id);
+        return "redirect:/admin";
+    }
 
 
 
