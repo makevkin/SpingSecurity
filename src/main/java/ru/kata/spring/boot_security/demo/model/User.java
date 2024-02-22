@@ -22,12 +22,12 @@ public class User implements UserDetails {
     @Column(name = "username")
     @NotEmpty(message = "Name is not be Empty")
     @Size(min = 2, max = 20, message = "Name should be between 2 and 20 characters ")
-    private String userName;
+    private String username;
 
 
     @Column(name = "password")
     @NotEmpty(message = "password shoudl not be Empty")
-    @Size(min = 2, max = 20, message = "password shoudl be between 2 and 20 characters")
+    @Size(min = 2, max = 200, message = "password shoudl be between 2 and 200 characters")
     private String password;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -39,8 +39,8 @@ public class User implements UserDetails {
     }
 
 
-    public User(String userName, String password, List<Role> roles) {
-        this.userName = userName;
+    public User(String username, String password, List<Role> roles) {
+        this.username = username;
         this.password = password;
         this.roles = roles;
     }
@@ -53,8 +53,8 @@ public class User implements UserDetails {
         return id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     @Override  // возвращаем права пользователя
@@ -73,7 +73,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return this.username;
     }
 
     public List<Role> getRoles() {

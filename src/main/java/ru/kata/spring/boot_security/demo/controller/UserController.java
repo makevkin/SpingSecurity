@@ -18,8 +18,8 @@ public class UserController {
     }
     @GetMapping("/user")
     public String userInfo(Model model, Principal principal) {
-        String userName = principal.getName();
-        User user = userRepository.findByUserName(userName).get();
+        String username = principal.getName();
+        User user = userRepository.findByUsername(username).get();
         model.addAttribute("user", user);
         return "user";
     }

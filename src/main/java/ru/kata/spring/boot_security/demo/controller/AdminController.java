@@ -33,7 +33,7 @@ public class AdminController {
 
         model.addAttribute("users", userService.findAll());
 
-        model.addAttribute("user", userRepository.findByUserName(principal.getName()).get());
+        model.addAttribute("user", userRepository.findByUsername(principal.getName()).get());
         model.addAttribute("allRoles", roleRepository.findAll());
 
         return "admin";
