@@ -18,10 +18,10 @@
         <td th:text="${user.username}"></td> <!--Ячейка в таблице -->
 
         <td th:each="role: ${user.roles}" th:text="${role.name}"></td>
-        <td>
-            <a th:href="'/edit?userId='+${user.id}">Edit</a>
+       <!-- <td>
+            <a th:href="'/admin/edit?id='+'${user.id}">Edit</a>
             <a th:href="'/admin/delete?id='+${user.id}">Delete</a>
-        </td>
+        </td>-->
         <td>
             <form id="formDelete" th:method="DELETE"
             th:action="@{admin/delete/{id} (id=${user.id})}"
@@ -29,6 +29,14 @@
             <button>DEL</button>
             </form>
         </td>
+        <td>
+            <form id="formEdit" th:method="PATCH"
+            th:action="@{admin/addOrUpdate/{id} (id=${user.id})}"
+            th:object="${user}">
+                <button>Edit</button>
+            </form>
+        </td>
+
     </tr>
 
 </table>

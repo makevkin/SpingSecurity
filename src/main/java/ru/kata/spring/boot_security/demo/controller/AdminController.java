@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -30,12 +31,11 @@ public class AdminController {
 
     @GetMapping("")
     public String indexView(Model model, Principal principal) {
-
         model.addAttribute("users", userService.findAll());
-
+        model.addAttribute("username", principal.getName());
         model.addAttribute("user", userRepository.findByUsername(principal.getName()).get());
         model.addAttribute("allRoles", roleRepository.findAll());
-
+        model.addAttribute("newUser", new User());
         return "admin";
     }
     @DeleteMapping("/delete/{id}")
@@ -59,4 +59,15 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    @PatchMapping("/addOrUpdate/{id}")
+    public String add(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            List<Role> roles = (List<Role>) roleRepository.findAll();
+            model.addAttribute("allRoles", roles);
+            return "addUser";
+        } else {
+            userService.update(id, user);
+            return "redirect:/admin";
+        }
+    }
 }
