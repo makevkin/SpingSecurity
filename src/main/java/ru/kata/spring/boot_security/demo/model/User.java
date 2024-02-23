@@ -53,7 +53,7 @@ public class User implements UserDetails {
         return id;
     }
 
-    public void setUserName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
