@@ -44,11 +44,10 @@ public class AdminController {
         return "redirect:/admin";
     }
     @GetMapping("/add") // форма для добавления нового пользователя
-    public String addUserForm(Model model, Principal principal) {
+    public String addUserForm(Model model) {
         User user = new User();
         model.addAttribute("user", user);
         List<Role> roles = (List<Role>) roleRepository.findAll();
-
         model.addAttribute("allRoles", roles);
         return "addUser";
     }
@@ -59,15 +58,22 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PatchMapping("/addOrUpdate/{id}")
-    public String add(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            List<Role> roles = (List<Role>) roleRepository.findAll();
-            model.addAttribute("allRoles", roles);
-            return "addUser";
-        } else {
-            userService.update(id, user);
-            return "redirect:/admin";
-        }
+
+    @PostMapping("/update")   //кнопка
+    public String add(@RequestParam("id") Long id,  Model model) {
+        User user = userService.findById(id).get();
+        model.addAttribute("user", user);
+        List<Role> roles = (List<Role>) roleRepository.findAll();
+        model.addAttribute("allRoles", roles);
+        return "addUser";
+
     }
+//    @GetMapping("/update1") // ссылка
+//    public String updateUser(@RequestParam("id") Long id, Model model) {
+//        User user = userService.findById(id).get();
+//        model.addAttribute("user", user);
+//        List<Role> roles = (List<Role>) roleRepository.findAll();
+//        model.addAttribute("allRoles", roles);
+//        return "addUser";
+//    }
 }
