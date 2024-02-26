@@ -61,12 +61,18 @@ public class AdminController {
 
     @PostMapping("/update")   //кнопка
     public String add(@RequestParam("id") Long id,  Model model) {
-        User user = userService.findById(id).get();
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.findById(id).get());
         List<Role> roles = (List<Role>) roleRepository.findAll();
         model.addAttribute("allRoles", roles);
         return "addUser";
 
+    }
+
+    @PatchMapping("/update1/{id}")
+    public String add1(@PathVariable("id") Long id, @ModelAttribute("user") User user){
+
+        userService.update(id,user);
+        return "redirect:/admin";
     }
 //    @GetMapping("/update1") // ссылка
 //    public String updateUser(@RequestParam("id") Long id, Model model) {

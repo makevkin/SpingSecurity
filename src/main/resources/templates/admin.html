@@ -26,14 +26,14 @@
             <button>DEL</button>
             </form>
         </td>
-        <!--
+
         <td>
             <form id="formEdit" th:method="PATCH"
-                  th:action="@{admin/addOrUpdate/{id} (id=${user.id})}"
+                  th:action="@{admin/update1/{id} (id=${user.id})}"
                   th:object="${user}">
                 <button>Edit</button>
             </form>
-        </td>-->
+        </td>
         <td>
             <form style="display: inline-block" th:action="@{/admin/update}" th:method="POST">
                 <input type="hidden" th:name="id" th:value="${user.getId()}"/>
